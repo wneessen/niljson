@@ -19,11 +19,6 @@ func (v *Variable[T]) Value() T {
 	return v.value
 }
 
-// Get is an alias method for Value()
-func (v *Variable[T]) Get() T {
-	return v.Value()
-}
-
 // NotNil returns true when a Variable is not nil
 func (v *Variable[T]) NotNil() bool {
 	return v.notNil
