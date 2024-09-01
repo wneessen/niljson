@@ -53,6 +53,21 @@ type NilInt = Variable[int]
 // NilInt64 is an int64 type that can be nil
 type NilInt64 = Variable[int64]
 
+// NilUInt is an uint type that can be nil
+type NilUInt = Variable[uint]
+
+// NilUInt8 is an uint8 type that can be nil
+type NilUInt8 = Variable[uint8]
+
+// NilUInt16 is an uint16 type that can be nil
+type NilUInt16 = Variable[uint16]
+
+// NilUInt32 is an uint32 type that can be nil
+type NilUInt32 = Variable[uint32]
+
+// NilUInt64 is an uint64 type that can be nil
+type NilUInt64 = Variable[uint64]
+
 // NilFloat32 is an float32 type that can be nil
 type NilFloat32 = Variable[float32]
 
