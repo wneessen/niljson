@@ -4,7 +4,9 @@
 
 package niljson
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 // Variable is a generic variable type that can be null.
 type Variable[T any] struct {
@@ -12,9 +14,14 @@ type Variable[T any] struct {
 	notNil bool
 }
 
-// Get the value of the Variable
-func (v *Variable[T]) Get() T {
+// Value returns the value of the Variable
+func (v *Variable[T]) Value() T {
 	return v.value
+}
+
+// Get is an alias method for Value()
+func (v *Variable[T]) Get() T {
+	return v.Value()
 }
 
 // NotNil returns true when a Variable is not nil
@@ -37,11 +44,17 @@ func (v *Variable[T]) Reset() {
 // NilBoolean is an boolean type that can be nil
 type NilBoolean = Variable[bool]
 
+// NilByteSlice is a []byte type that can be nil
+type NilByteSlice = Variable[[]byte]
+
 // NilInt is an int type that can be nil
 type NilInt = Variable[int]
 
 // NilInt64 is an int64 type that can be nil
 type NilInt64 = Variable[int64]
+
+// NilFloat32 is an float32 type that can be nil
+type NilFloat32 = Variable[float32]
 
 // NilFloat64 is an float64 type that can be nil
 type NilFloat64 = Variable[float64]

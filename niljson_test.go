@@ -5,23 +5,37 @@
 package niljson
 
 import (
+	"bytes"
 	"encoding/json"
 	"testing"
 )
 
 func TestVariable_UnmarshalJSON(t *testing.T) {
-	jsonBytes := []byte(`{"string":"test", "int":123, "int64": 12345678901234, "float":123.456, "nil":null, "bool":true}`)
+	jsonBytes := []byte(`{"string":"test", "int":123, "int64": 12345678901234, "float32": 1.6,
+						"float64":123.456, "nil":null, "bool":true, "bytes": "Ynl0ZXM="}`)
 	type JSONType struct {
-		Bool       NilBoolean `json:"bool"`
-		Float64    NilFloat64 `json:"float"`
-		Int        NilInt     `json:"int"`
-		Int64      NilInt64   `json:"int64"`
-		NullString NilString  `json:"nil"`
-		String     NilString  `json:"string"`
+		Bool       NilBoolean   `json:"bool"`
+		ByteSlice  NilByteSlice `json:"bytes"`
+		Float32    NilFloat32   `json:"float32"`
+		Float64    NilFloat64   `json:"float64"`
+		Int        NilInt       `json:"int"`
+		Int64      NilInt64     `json:"int64"`
+		NullString NilString    `json:"nil"`
+		String     NilString    `json:"string"`
 	}
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
 		t.Errorf("failed to unmarshal json with nil types: %v", err)
+	}
+
+	if jt.Bool.IsNil() {
+		t.Errorf("expected not nil bool")
+	}
+	if jt.ByteSlice.IsNil() {
+		t.Errorf("expected not nil byte slice")
+	}
+	if jt.Float32.IsNil() {
+		t.Errorf("expected not nil float32")
 	}
 	if jt.Float64.IsNil() {
 		t.Errorf("expected not nil float64")
@@ -38,20 +52,27 @@ func TestVariable_UnmarshalJSON(t *testing.T) {
 	if jt.NullString.NotNil() {
 		t.Errorf("expected nil string")
 	}
-	if !jt.Bool.Get() {
-		t.Errorf("expected bool to be true, got %t", jt.Bool.Get())
+
+	if !jt.Bool.Value() {
+		t.Errorf("expected bool to be true, got %t", jt.Bool.Value())
 	}
-	if jt.Float64.Get() != 123.456 {
-		t.Errorf("expected float64 to be 123.456, got %f", jt.Float64.Get())
+	if !bytes.Equal(jt.ByteSlice.Value(), []byte("bytes")) {
+		t.Errorf("expected byte slice to be %q, got %q", "bytes", jt.ByteSlice.Value())
 	}
-	if jt.Int.Get() != 123 {
-		t.Errorf("expected int to be 123, got %d", jt.Int.Get())
+	if jt.Float32.Value() != 1.6 {
+		t.Errorf("expected float64 to be 1.6, got %f", jt.Float32.Value())
 	}
-	if jt.Int64.Get() != 12345678901234 {
-		t.Errorf("expected int to be 12345678901234, got %d", jt.Int64.Get())
+	if jt.Float64.Value() != 123.456 {
+		t.Errorf("expected float64 to be 123.456, got %f", jt.Float64.Value())
 	}
-	if jt.String.Get() != "test" {
-		t.Errorf("expected string to be 'test', got %s", jt.String.Get())
+	if jt.Int.Value() != 123 {
+		t.Errorf("expected int to be 123, got %d", jt.Int.Value())
+	}
+	if jt.Int64.Value() != 12345678901234 {
+		t.Errorf("expected int to be 12345678901234, got %d", jt.Int64.Value())
+	}
+	if jt.String.Value() != "test" {
+		t.Errorf("expected string to be 'test', got %s", jt.String.Value())
 	}
 
 	jt.Bool.Reset()
