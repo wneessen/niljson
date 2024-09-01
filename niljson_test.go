@@ -12,102 +12,390 @@ import (
 	"testing"
 )
 
-func TestVariable_UnmarshalJSON(t *testing.T) {
-	jsonBytes := []byte(`{"string":"test", "int":123, "int64": 12345678901234, "float32": 1.6,
-						"float64":123.456, "nil":null, "bool":true, "bytes": "Ynl0ZXM="}`)
+var jsonBytes = []byte(
+	`{
+		"bool": true,
+		"bytes": "Ynl0ZXM=",
+		"float32": 1.6,
+		"float64": 123.456,
+		"int": 123,
+		"int64": 12345678901234,
+		"nilvalue": null,
+		"string": "test",
+		"uint": 1,
+		"uint8": 2,
+		"uint16": 3,
+		"uint32": 4,
+		"uint64": 5
+	}`)
+
+func TestVariable_UnmarshalJSON_Boolean(t *testing.T) {
 	type JSONType struct {
-		Bool       NilBoolean   `json:"bool"`
-		ByteSlice  NilByteSlice `json:"bytes"`
-		Float32    NilFloat32   `json:"float32"`
-		Float64    NilFloat64   `json:"float64"`
-		Int        NilInt       `json:"int"`
-		Int64      NilInt64     `json:"int64"`
-		NullString NilString    `json:"nil"`
-		String     NilString    `json:"string"`
+		Value    NilBoolean `json:"bool"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
 	}
+
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %v", err)
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
 	}
 
-	if jt.Bool.IsNil() {
-		t.Errorf("expected not nil bool")
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
 	}
-	if jt.ByteSlice.IsNil() {
-		t.Errorf("expected not nil byte slice")
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
 	}
-	if jt.Float32.IsNil() {
-		t.Errorf("expected not nil float32")
+	if !jt.Value.Value() {
+		t.Errorf("expected value to be true, got %t", jt.Value.Value())
 	}
-	if jt.Float64.IsNil() {
-		t.Errorf("expected not nil float64")
-	}
-	if jt.Int.IsNil() {
-		t.Errorf("expected not nil int")
-	}
-	if jt.Int64.IsNil() {
-		t.Errorf("expected not nil int64")
-	}
-	if jt.String.IsNil() {
-		t.Errorf("expected not nil string")
-	}
-	if jt.NullString.NotNil() {
-		t.Errorf("expected nil string")
+	if !jt.Value.Get() {
+		t.Errorf("expected value to be true, got %t", jt.Value.Get())
 	}
 
-	if !jt.Bool.Value() {
-		t.Errorf("expected bool to be true, got %t", jt.Bool.Value())
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
 	}
-	if !bytes.Equal(jt.ByteSlice.Value(), []byte("bytes")) {
-		t.Errorf("expected byte slice to be %q, got %q", "bytes", jt.ByteSlice.Value())
-	}
-	if jt.Float32.Value() != 1.6 {
-		t.Errorf("expected float64 to be 1.6, got %f", jt.Float32.Value())
-	}
-	if jt.Float64.Value() != 123.456 {
-		t.Errorf("expected float64 to be 123.456, got %f", jt.Float64.Value())
-	}
-	if jt.Int.Value() != 123 {
-		t.Errorf("expected int to be 123, got %d", jt.Int.Value())
-	}
-	if jt.Int64.Value() != 12345678901234 {
-		t.Errorf("expected int to be 12345678901234, got %d", jt.Int64.Value())
-	}
-	if jt.String.Value() != "test" {
-		t.Errorf("expected string to be 'test', got %s", jt.String.Value())
+}
+
+func TestVariable_UnmarshalJSON_ByteSlice(t *testing.T) {
+	type JSONType struct {
+		Value    NilByteSlice `json:"bytes"`
+		NilValue NilBoolean   `json:"nilvalue,omitempty"`
 	}
 
-	if jt.String.Get() != "test" {
-		t.Errorf("expected string to be 'test', got %s", jt.String.Get())
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
 	}
 
-	jt.Bool.Reset()
-	if jt.Bool.NotNil() {
-		t.Errorf("expected bool to be nil after reset")
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
 	}
-	jt.ByteSlice.Reset()
-	if jt.ByteSlice.NotNil() {
-		t.Errorf("expected byte slice to be nil after reset")
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
 	}
-	jt.Float32.Reset()
-	if jt.Float32.NotNil() {
-		t.Errorf("expected float32 to be nil after reset")
+	if !bytes.Equal(jt.Value.Value(), []byte("bytes")) {
+		t.Errorf("expected value to be %q, got %q", "bytes", jt.Value.Value())
 	}
-	jt.Float64.Reset()
-	if jt.Float64.NotNil() {
-		t.Errorf("expected float64 to be nil after reset")
+	if !bytes.Equal(jt.Value.Get(), []byte("bytes")) {
+		t.Errorf("expected value to be %q, got %q", "bytes", jt.Value.Get())
 	}
-	jt.Int.Reset()
-	if jt.Int.NotNil() {
-		t.Errorf("expected int to be nil after reset")
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
 	}
-	jt.Int64.Reset()
-	if jt.Int64.NotNil() {
-		t.Errorf("expected int64 to be nil after reset")
+}
+
+func TestVariable_UnmarshalJSON_Float32(t *testing.T) {
+	type JSONType struct {
+		Value    NilFloat32 `json:"float32"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
 	}
-	jt.String.Reset()
-	if jt.String.NotNil() {
-		t.Errorf("expected string to be nil after reset")
+	expected := float32(1.6)
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %f, got %f", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %f, got %f", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_UnmarshalJSON_Float64(t *testing.T) {
+	type JSONType struct {
+		Value    NilFloat64 `json:"float64"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+	expected := 123.456
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %f, got %f", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %f, got %f", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_UnmarshalJSON_Int(t *testing.T) {
+	type JSONType struct {
+		Value    NilInt     `json:"int"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+	expected := 123
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_UnmarshalJSON_Int64(t *testing.T) {
+	type JSONType struct {
+		Value    NilInt64   `json:"int64"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+	expected := int64(12345678901234)
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_UnmarshalJSON_String(t *testing.T) {
+	type JSONType struct {
+		Value    NilString  `json:"string"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+	expected := "test"
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %s, got %s", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %s, got %s", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_UnmarshalJSON_UInt(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt    `json:"uint"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+	expected := uint(1)
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_UnmarshalJSON_UInt8(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt8   `json:"uint8"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+	expected := uint8(2)
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_UnmarshalJSON_UInt16(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt16  `json:"uint16"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+	expected := uint16(3)
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_UnmarshalJSON_UInt32(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt32  `json:"uint32"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+	expected := uint32(4)
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_UnmarshalJSON_UInt64(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt64  `json:"uint64"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+	expected := uint64(5)
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf("failed to unmarshal json with nil types: %s", err)
+	}
+
+	if jt.Value.IsNil() {
+		t.Errorf("expected value, but got nil")
+	}
+	if jt.NilValue.NotNil() {
+		t.Errorf("expected nil, but got value")
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+	}
+	if jt.Value.Get() != expected {
+		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
+	}
+
+	jt.Value.Reset()
+	if jt.Value.NotNil() {
+		t.Errorf("expected value to be nil after reset")
 	}
 }
 
