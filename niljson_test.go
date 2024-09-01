@@ -75,9 +75,21 @@ func TestVariable_UnmarshalJSON(t *testing.T) {
 		t.Errorf("expected string to be 'test', got %s", jt.String.Value())
 	}
 
+	if jt.String.Get() != "test" {
+		t.Errorf("expected string to be 'test', got %s", jt.String.Get())
+	}
+
 	jt.Bool.Reset()
 	if jt.Bool.NotNil() {
 		t.Errorf("expected bool to be nil after reset")
+	}
+	jt.ByteSlice.Reset()
+	if jt.ByteSlice.NotNil() {
+		t.Errorf("expected byte slice to be nil after reset")
+	}
+	jt.Float32.Reset()
+	if jt.Float32.NotNil() {
+		t.Errorf("expected float32 to be nil after reset")
 	}
 	jt.Float64.Reset()
 	if jt.Float64.NotNil() {
