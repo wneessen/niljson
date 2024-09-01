@@ -56,25 +56,36 @@ type JSONType struct {
 }
 
 func main() {
-    data := []byte(`{"string":"test", "int":123, "int64": 12345678901234, "float64":0, "nil":null, "bool":true}`)
-    
-    var example JSONType
-    if err := json.Unmarshal(data, &example); err != nil {
-        fmt.Println("failed to unmarshal JSON:", err)
-        os.Exit(1)
-    }
+  data := []byte(`{
+ 		"bytes": "Ynl0ZXM=",
+		"bool": true,
+		"float32": null,
+		"float64":0,
+		"int": 123,
+		"int64": 12345678901234,
+		"nilvalue": null,
+		"string":"test"
+	}`)
 
-    if example.Bool.NotNil() {
-        fmt.Printf("Bool is: %t\n", example.Bool.Value())
-    }
-	if example.Float64.IsNil() {
-		fmt.Println("Float 32 is NIL")
-	}
-	if example.Float64.NotNil() {
-		fmt.Printf("Float is: %f\n", example.Float64.Value())
-	}
-    if !example.String.IsNil() {
-        fmt.Printf("String is: %s\n", example.String.Value())
-    }
+  var example JSONType
+  var output string
+  if err := json.Unmarshal(data, &example); err != nil {
+    fmt.Println("failed to unmarshal JSON:", err)
+    os.Exit(1)
+  }
+
+  if example.Bool.NotNil() {
+    output += fmt.Sprintf("Bool is: %t, ", example.Bool.Value())
+  }
+  if example.Float32.IsNil() {
+    output += "Float 32 is nil, "
+  }
+  if example.Float64.NotNil() {
+    output += fmt.Sprintf("Float 64 is: %f, ", example.Float64.Value())
+  }
+  if example.String.NotNil() {
+    output += fmt.Sprintf("String is: %s", example.String.Value())
+  }
+  fmt.Println(output)
 }
 ```
