@@ -47,7 +47,7 @@ import (
 
 type JSONType struct {
     Bool       niljson.NilBoolean `json:"bool"`
-	Float32    niljson.NilFloat32 `json:"float32,omitempty"`
+    Float32    niljson.NilFloat32 `json:"float32,omitempty"`
     Float64    niljson.NilFloat64 `json:"float64"`
     Int        niljson.NilInt     `json:"int"`
     Int64      niljson.NilInt64   `json:"int64"`
