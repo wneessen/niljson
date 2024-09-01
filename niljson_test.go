@@ -49,9 +49,6 @@ func TestVariable_UnmarshalJSON_Boolean(t *testing.T) {
 	if !jt.Value.Value() {
 		t.Errorf("expected value to be true, got %t", jt.Value.Value())
 	}
-	if !jt.Value.Get() {
-		t.Errorf("expected value to be true, got %t", jt.Value.Get())
-	}
 
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
@@ -78,9 +75,6 @@ func TestVariable_UnmarshalJSON_ByteSlice(t *testing.T) {
 	}
 	if !bytes.Equal(jt.Value.Value(), []byte("bytes")) {
 		t.Errorf("expected value to be %q, got %q", "bytes", jt.Value.Value())
-	}
-	if !bytes.Equal(jt.Value.Get(), []byte("bytes")) {
-		t.Errorf("expected value to be %q, got %q", "bytes", jt.Value.Get())
 	}
 
 	jt.Value.Reset()
@@ -110,9 +104,6 @@ func TestVariable_UnmarshalJSON_Float32(t *testing.T) {
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %f, got %f", expected, jt.Value.Value())
 	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %f, got %f", expected, jt.Value.Get())
-	}
 
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
@@ -140,9 +131,6 @@ func TestVariable_UnmarshalJSON_Float64(t *testing.T) {
 	}
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %f, got %f", expected, jt.Value.Value())
-	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %f, got %f", expected, jt.Value.Get())
 	}
 
 	jt.Value.Reset()
@@ -172,9 +160,6 @@ func TestVariable_UnmarshalJSON_Int(t *testing.T) {
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
 	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
-	}
 
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
@@ -202,9 +187,6 @@ func TestVariable_UnmarshalJSON_Int64(t *testing.T) {
 	}
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
-	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
 	}
 
 	jt.Value.Reset()
@@ -234,9 +216,6 @@ func TestVariable_UnmarshalJSON_String(t *testing.T) {
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %s, got %s", expected, jt.Value.Value())
 	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %s, got %s", expected, jt.Value.Get())
-	}
 
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
@@ -264,9 +243,6 @@ func TestVariable_UnmarshalJSON_UInt(t *testing.T) {
 	}
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
-	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
 	}
 
 	jt.Value.Reset()
@@ -296,9 +272,6 @@ func TestVariable_UnmarshalJSON_UInt8(t *testing.T) {
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
 	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
-	}
 
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
@@ -326,9 +299,6 @@ func TestVariable_UnmarshalJSON_UInt16(t *testing.T) {
 	}
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
-	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
 	}
 
 	jt.Value.Reset()
@@ -358,9 +328,6 @@ func TestVariable_UnmarshalJSON_UInt32(t *testing.T) {
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
 	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
-	}
 
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
@@ -388,9 +355,6 @@ func TestVariable_UnmarshalJSON_UInt64(t *testing.T) {
 	}
 	if jt.Value.Value() != expected {
 		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
-	}
-	if jt.Value.Get() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Get())
 	}
 
 	jt.Value.Reset()
