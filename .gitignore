@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Winni Neessen <wn@neessen.dev>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # If you prefer the allow list template instead of the deny list, see community template:
 # https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
 #
