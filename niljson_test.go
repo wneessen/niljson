@@ -56,6 +56,25 @@ func TestVariable_UnmarshalJSON_Boolean(t *testing.T) {
 	}
 }
 
+func TestVariable_MarshalJSON_Boolean(t *testing.T) {
+	type JSONType struct {
+		Value    NilBoolean `json:"bool"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"bool":false,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(false),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
+	}
+}
+
 func TestVariable_UnmarshalJSON_ByteSlice(t *testing.T) {
 	type JSONType struct {
 		Value    NilByteSlice `json:"bytes"`
@@ -80,6 +99,25 @@ func TestVariable_UnmarshalJSON_ByteSlice(t *testing.T) {
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
 		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_MarshalJSON_ByteSlice(t *testing.T) {
+	type JSONType struct {
+		Value    NilByteSlice `json:"bytes"`
+		NilValue NilBoolean   `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"bytes":"Ynl0ZXM=","nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable([]byte("bytes")),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
 	}
 }
 
@@ -111,6 +149,25 @@ func TestVariable_UnmarshalJSON_Float32(t *testing.T) {
 	}
 }
 
+func TestVariable_MarshalJSON_Float32(t *testing.T) {
+	type JSONType struct {
+		Value    NilFloat32 `json:"float32"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"float32":1.234,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(float32(1.234)),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
+	}
+}
+
 func TestVariable_UnmarshalJSON_Float64(t *testing.T) {
 	type JSONType struct {
 		Value    NilFloat64 `json:"float64"`
@@ -136,6 +193,25 @@ func TestVariable_UnmarshalJSON_Float64(t *testing.T) {
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
 		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_MarshalJSON_Float64(t *testing.T) {
+	type JSONType struct {
+		Value    NilFloat64 `json:"float64"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"float64":123.456,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(123.456),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
 	}
 }
 
@@ -167,6 +243,25 @@ func TestVariable_UnmarshalJSON_Int(t *testing.T) {
 	}
 }
 
+func TestVariable_MarshalJSON_Int(t *testing.T) {
+	type JSONType struct {
+		Value    NilInt     `json:"int"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"int":123,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(123),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
+	}
+}
+
 func TestVariable_UnmarshalJSON_Int64(t *testing.T) {
 	type JSONType struct {
 		Value    NilInt64   `json:"int64"`
@@ -192,6 +287,25 @@ func TestVariable_UnmarshalJSON_Int64(t *testing.T) {
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
 		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_MarshalJSON_Int64(t *testing.T) {
+	type JSONType struct {
+		Value    NilInt64   `json:"int64"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"int64":12345678901234,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(int64(12345678901234)),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
 	}
 }
 
@@ -223,6 +337,25 @@ func TestVariable_UnmarshalJSON_String(t *testing.T) {
 	}
 }
 
+func TestVariable_MarshalJSON_String(t *testing.T) {
+	type JSONType struct {
+		Value    NilString  `json:"string"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"string":"test123","nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable("test123"),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
+	}
+}
+
 func TestVariable_UnmarshalJSON_UInt(t *testing.T) {
 	type JSONType struct {
 		Value    NilUInt    `json:"uint"`
@@ -248,6 +381,25 @@ func TestVariable_UnmarshalJSON_UInt(t *testing.T) {
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
 		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_MarshalJSON_UInt(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt    `json:"uint"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"uint":123,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(uint(123)),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
 	}
 }
 
@@ -279,6 +431,25 @@ func TestVariable_UnmarshalJSON_UInt8(t *testing.T) {
 	}
 }
 
+func TestVariable_MarshalJSON_UInt8(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt8   `json:"uint8"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"uint8":1,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(uint8(1)),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
+	}
+}
+
 func TestVariable_UnmarshalJSON_UInt16(t *testing.T) {
 	type JSONType struct {
 		Value    NilUInt16  `json:"uint16"`
@@ -304,6 +475,25 @@ func TestVariable_UnmarshalJSON_UInt16(t *testing.T) {
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
 		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_MarshalJSON_UInt16(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt16  `json:"uint16"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"uint16":2,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(uint16(2)),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
 	}
 }
 
@@ -335,6 +525,25 @@ func TestVariable_UnmarshalJSON_UInt32(t *testing.T) {
 	}
 }
 
+func TestVariable_MarshalJSON_UInt32(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt32  `json:"uint32"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"uint32":3,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(uint32(3)),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
+	}
+}
+
 func TestVariable_UnmarshalJSON_UInt64(t *testing.T) {
 	type JSONType struct {
 		Value    NilUInt64  `json:"uint64"`
@@ -360,6 +569,25 @@ func TestVariable_UnmarshalJSON_UInt64(t *testing.T) {
 	jt.Value.Reset()
 	if jt.Value.NotNil() {
 		t.Errorf("expected value to be nil after reset")
+	}
+}
+
+func TestVariable_MarshalJSON_UInt64(t *testing.T) {
+	type JSONType struct {
+		Value    NilUInt64  `json:"uint64"`
+		NilValue NilBoolean `json:"nilvalue,omitempty"`
+	}
+
+	expected := `{"uint64":4,"nilvalue":null}`
+	jt := &JSONType{
+		Value: NewVariable(uint64(4)),
+	}
+	data, err := json.Marshal(&jt)
+	if err != nil {
+		t.Errorf("failed to marshal json with nil types: %s", err)
+	}
+	if !bytes.Equal(data, []byte(expected)) {
+		t.Errorf("expected json to be %q, got %q", expected, string(data))
 	}
 }
 
@@ -406,4 +634,36 @@ func ExampleVariable_UnmarshalJSON() {
 	}
 	fmt.Println(output)
 	// Output: Bool is: true, Float 32 is nil, Float 64 is: 0.000000, String is: test
+}
+
+func ExampleVariable_MarshalJSON() {
+	type JSONType struct {
+		Bool       NilBoolean   `json:"bool"`
+		ByteSlice  NilByteSlice `json:"bytes"`
+		Float32    NilFloat32   `json:"float32,omitempty"`
+		Float64    NilFloat64   `json:"float64"`
+		Int        NilInt       `json:"int"`
+		Int64      NilInt64     `json:"int64"`
+		NullString NilString    `json:"nilvalue,omitempty"`
+		String     NilString    `json:"string"`
+		UInt       NilUInt      `json:"uint"`
+		UInt8      NilUInt8     `json:"uint8"`
+	}
+
+	example := &JSONType{
+		Bool:      NewVariable(false),
+		ByteSlice: NewVariable([]byte("bytes")),
+		Float64:   NewVariable(123.456),
+		Int:       NewVariable(123),
+		Int64:     NewVariable(int64(12345678901234)),
+		String:    NewVariable("test"),
+		UInt:      NewVariable(uint(123)),
+	}
+	data, err := json.Marshal(example)
+	if err != nil {
+		fmt.Printf("failed to marshal JSON: %s", err)
+		os.Exit(1)
+	}
+	fmt.Println(string(data))
+	// Output: {"bool":false,"bytes":"Ynl0ZXM=","float32":null,"float64":123.456,"int":123,"int64":12345678901234,"nilvalue":null,"string":"test","uint":123,"uint8":null}
 }

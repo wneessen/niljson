@@ -87,5 +87,12 @@ func main() {
     output += fmt.Sprintf("String is: %s", example.String.Value())
   }
   fmt.Println(output)
+  
+  data, err := json.Marshal(&example)
+  if err != nil {
+    fmt.Printf("failed to marshal JSON: %s", err)
+    os.Exit(1)
+  }
+  fmt.Println(data)
 }
 ```
