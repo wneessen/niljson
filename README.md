@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: 2024 Winni Neessen <wn@neessen.dev>
 SPDX-License-Identifier: CC0-1.0
 -->
 
-# niljson - A simple Go package for unmarshalling null-able JSON types
+# niljson - A simple Go package for (un-)marshalling null-able JSON types
 
 [![GoDoc](https://godoc.org/github.com/wneessen/niljson?status.svg)](https://pkg.go.dev/github.com/wneessen/niljson)
 [![codecov](https://codecov.io/gh/wneessen/niljson/branch/main/graph/badge.svg?token=W4QI1RMR4L)](https://codecov.io/gh/wneessen/niljson)
@@ -12,7 +12,7 @@ SPDX-License-Identifier: CC0-1.0
 [![REUSE status](https://api.reuse.software/badge/github.com/wneessen/niljson)](https://api.reuse.software/info/github.com/wneessen/niljson)
 <a href="https://ko-fi.com/D1D24V9IX"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5cbed8a4ae2b88347c06c923_BuyMeACoffee_blue.png" height="20" alt="buy ma a coffee"></a>
 
-niljson provides a simple and efficient way to handle nullable JSON fields during the unmarshalling process. 
+niljson provides a simple and efficient way to handle nullable JSON fields during the (un-)marshalling process. 
 In JSON, it's common to encounter fields that can be `null`, but handling these fields in Go can be cumbersome, 
 especially when dealing with primitive types like `int`, `float64`, `bool`. These types can all be either `0` (as value)
 or `null`. In Go you can always work with pointers but these, of course, can lead to unhandled nil pointer dereferences.
@@ -25,9 +25,7 @@ checks for `nil` values.
 
 - **Nullable Types**: Provides a range of nullable types (`NilString`, `NilInt`, `NilFloat`, `NilBool`, etc.) that 
   are easy to use and integrate into your existing Go structs.
-- **Seamless Integration**: These types work just like Go's standard types but add support for `null` values, 
-  enabling cleaner and more maintainable code.
-- **JSON Unmarshalling Support**: Automatically handles the unmarshalling of JSON fields, converting `null` JSON 
+- **JSON Unmarshalling Support**: Automatically handles the (un-)marshalling of JSON fields, converting `null` JSON 
   values to Go's `nil` or zero values, depending on the context.
 - **Minimalistic and Lightweight**: Designed to be lightweight and unobtrusive, so it won't bloat your application 
   or introduce unnecessary dependencies (only relies on the Go standard library)
