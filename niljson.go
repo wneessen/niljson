@@ -36,6 +36,14 @@ func (v *Variable[T]) Reset() {
 	v.notNil = false
 }
 
+// NewVariable returns a new Variable of generic type
+func NewVariable[T any](value T) Variable[T] {
+	return Variable[T]{
+		notNil: true,
+		value:  value,
+	}
+}
+
 // NilBoolean is an boolean type that can be nil
 type NilBoolean = Variable[bool]
 
@@ -72,7 +80,7 @@ type NilFloat64 = Variable[float64]
 // NilString is a string type that can be nil
 type NilString = Variable[string]
 
-// UnmarshalJSON interprets the generic Nil types and sets the value and notnil of the type
+// UnmarshalJSON satisfies the json.Unmarshaler interface for generic Variable types
 func (v *Variable[T]) UnmarshalJSON(data []byte) error {
 	if string(data) != "null" {
 		v.value = *new(T)
@@ -80,4 +88,12 @@ func (v *Variable[T]) UnmarshalJSON(data []byte) error {
 		return json.Unmarshal(data, &v.value)
 	}
 	return nil
+}
+
+// MarshalJSON satisfies the json.Marshaler interface for generic Variable types
+func (v *Variable[T]) MarshalJSON() ([]byte, error) {
+	if !v.notNil {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(v.value)
 }
