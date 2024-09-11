@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2022 Winni Neessen <winni@neessen.dev>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Govulncheck Security Scan
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Harden Runner
+      uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+      with:
+        egress-policy: audit
+    - name: Run govulncheck
+      uses: golang/govulncheck-action@dd0578b371c987f96d1185abb54344b44352bd58 # v1.0.3
