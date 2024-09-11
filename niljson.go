@@ -69,8 +69,8 @@ func (v *Variable[T]) NotNil() bool {
 	return v.notNil
 }
 
-// Ommited returns true if a value was omitted in the JSON
-func (v *Variable[T]) Ommited() bool {
+// Omitted returns true if a value was omitted in the JSON
+func (v *Variable[T]) Omitted() bool {
 	return !v.present
 }
 
