@@ -12,6 +12,11 @@ import (
 	"testing"
 )
 
+const (
+	ErrUnmarshalFailed = "failed to unmarshal json with nil types: %s"
+	ErrMarshalFailed   = "failed to marshal json with nil types: %s"
+)
+
 var jsonBytes = []byte(
 	`{
 		"bool": true,
@@ -37,7 +42,7 @@ func TestVariable_UnmarshalJSON_Boolean(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -68,7 +73,7 @@ func TestVariable_MarshalJSON_Boolean(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -83,7 +88,7 @@ func TestVariable_UnmarshalJSON_ByteSlice(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -114,7 +119,7 @@ func TestVariable_MarshalJSON_ByteSlice(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -130,7 +135,7 @@ func TestVariable_UnmarshalJSON_Float32(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -161,7 +166,7 @@ func TestVariable_MarshalJSON_Float32(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -177,7 +182,7 @@ func TestVariable_UnmarshalJSON_Float64(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -208,7 +213,7 @@ func TestVariable_MarshalJSON_Float64(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -224,7 +229,7 @@ func TestVariable_UnmarshalJSON_Int(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -255,7 +260,7 @@ func TestVariable_MarshalJSON_Int(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -271,7 +276,7 @@ func TestVariable_UnmarshalJSON_Int64(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -302,7 +307,7 @@ func TestVariable_MarshalJSON_Int64(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -318,7 +323,7 @@ func TestVariable_UnmarshalJSON_String(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -349,7 +354,7 @@ func TestVariable_MarshalJSON_String(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -365,7 +370,7 @@ func TestVariable_UnmarshalJSON_UInt(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -396,7 +401,7 @@ func TestVariable_MarshalJSON_UInt(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -412,7 +417,7 @@ func TestVariable_UnmarshalJSON_UInt8(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -443,7 +448,7 @@ func TestVariable_MarshalJSON_UInt8(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -459,7 +464,7 @@ func TestVariable_UnmarshalJSON_UInt16(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -490,7 +495,7 @@ func TestVariable_MarshalJSON_UInt16(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -506,7 +511,7 @@ func TestVariable_UnmarshalJSON_UInt32(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -537,7 +542,7 @@ func TestVariable_MarshalJSON_UInt32(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
@@ -553,7 +558,7 @@ func TestVariable_UnmarshalJSON_UInt64(t *testing.T) {
 
 	var jt JSONType
 	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
-		t.Errorf("failed to unmarshal json with nil types: %s", err)
+		t.Errorf(ErrUnmarshalFailed, err)
 	}
 
 	if jt.Value.IsNil() {
@@ -584,7 +589,7 @@ func TestVariable_MarshalJSON_UInt64(t *testing.T) {
 	}
 	data, err := json.Marshal(&jt)
 	if err != nil {
-		t.Errorf("failed to marshal json with nil types: %s", err)
+		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
 		t.Errorf("expected json to be %q, got %q", expected, string(data))
