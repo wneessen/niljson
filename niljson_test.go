@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	ErrUnmarshalFailed = "failed to unmarshal json with nil types: %s"
-	ErrMarshalFailed   = "failed to marshal json with nil types: %s"
+	ErrUnmarshalFailed    = "failed to unmarshal json with nil types: %s"
+	ErrMarshalFailed      = "failed to marshal json with nil types: %s"
+	ErrExpectedJSONString = "expected json to be %q, got %q"
 )
 
 var jsonBytes = []byte(
@@ -76,7 +77,7 @@ func TestVariable_MarshalJSON_Boolean(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -122,7 +123,7 @@ func TestVariable_MarshalJSON_ByteSlice(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -169,7 +170,7 @@ func TestVariable_MarshalJSON_Float32(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -216,7 +217,7 @@ func TestVariable_MarshalJSON_Float64(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -263,7 +264,7 @@ func TestVariable_MarshalJSON_Int(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -310,7 +311,7 @@ func TestVariable_MarshalJSON_Int64(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -357,7 +358,7 @@ func TestVariable_MarshalJSON_String(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -404,7 +405,7 @@ func TestVariable_MarshalJSON_UInt(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -451,7 +452,7 @@ func TestVariable_MarshalJSON_UInt8(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -498,7 +499,7 @@ func TestVariable_MarshalJSON_UInt16(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -545,7 +546,7 @@ func TestVariable_MarshalJSON_UInt32(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
@@ -592,7 +593,7 @@ func TestVariable_MarshalJSON_UInt64(t *testing.T) {
 		t.Errorf(ErrMarshalFailed, err)
 	}
 	if !bytes.Equal(data, []byte(expected)) {
-		t.Errorf("expected json to be %q, got %q", expected, string(data))
+		t.Errorf(ErrExpectedJSONString, expected, string(data))
 	}
 }
 
