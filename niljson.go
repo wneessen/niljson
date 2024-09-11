@@ -8,42 +8,6 @@ import (
 	"encoding/json"
 )
 
-// Variable is a generic variable type that can be null.
-type Variable[T any] struct {
-	value  T
-	notNil bool
-}
-
-// Value returns the value of the Variable
-func (v *Variable[T]) Value() T {
-	return v.value
-}
-
-// NotNil returns true when a Variable is not nil
-func (v *Variable[T]) NotNil() bool {
-	return v.notNil
-}
-
-// IsNil returns true when a Variable is nil
-func (v *Variable[T]) IsNil() bool {
-	return !v.notNil
-}
-
-// Reset resets the value to the Variable to a zero value and sets it to be nil
-func (v *Variable[T]) Reset() {
-	var newVal T
-	v.value = newVal
-	v.notNil = false
-}
-
-// NewVariable returns a new Variable of generic type
-func NewVariable[T any](value T) Variable[T] {
-	return Variable[T]{
-		notNil: true,
-		value:  value,
-	}
-}
-
 // NilBoolean is an boolean type that can be nil
 type NilBoolean = Variable[bool]
 
@@ -80,14 +44,46 @@ type NilFloat64 = Variable[float64]
 // NilString is a string type that can be nil
 type NilString = Variable[string]
 
-// UnmarshalJSON satisfies the json.Unmarshaler interface for generic Variable types
-func (v *Variable[T]) UnmarshalJSON(data []byte) error {
-	if string(data) != "null" {
-		v.value = *new(T)
-		v.notNil = true
-		return json.Unmarshal(data, &v.value)
+// Variable is a generic variable type that can be null.
+type Variable[T any] struct {
+	value   T
+	notNil  bool
+	present bool
+}
+
+// NewVariable returns a new Variable of generic type
+func NewVariable[T any](value T) Variable[T] {
+	return Variable[T]{
+		notNil: true,
+		value:  value,
 	}
-	return nil
+}
+
+// IsNil returns true when a Variable is nil
+func (v *Variable[T]) IsNil() bool {
+	return !v.notNil
+}
+
+// NotNil returns true when a Variable is not nil
+func (v *Variable[T]) NotNil() bool {
+	return v.notNil
+}
+
+// Omitted returns true if a value was omitted in the JSON
+func (v *Variable[T]) Omitted() bool {
+	return !v.present
+}
+
+// Reset resets the value to the Variable to a zero value and sets it to be nil
+func (v *Variable[T]) Reset() {
+	var newVal T
+	v.value = newVal
+	v.notNil = false
+}
+
+// Value returns the value of the Variable
+func (v *Variable[T]) Value() T {
+	return v.value
 }
 
 // MarshalJSON satisfies the json.Marshaler interface for generic Variable types
@@ -96,4 +92,15 @@ func (v *Variable[T]) MarshalJSON() ([]byte, error) {
 		return json.Marshal(nil)
 	}
 	return json.Marshal(v.value)
+}
+
+// UnmarshalJSON satisfies the json.Unmarshaler interface for generic Variable types
+func (v *Variable[T]) UnmarshalJSON(data []byte) error {
+	v.present = true
+	if string(data) != "null" {
+		v.value = *new(T)
+		v.notNil = true
+		return json.Unmarshal(data, &v.value)
+	}
+	return nil
 }
