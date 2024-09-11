@@ -602,6 +602,28 @@ func TestVariable_MarshalJSON_UInt64(t *testing.T) {
 	}
 }
 
+func TestVariable_Omitted(t *testing.T) {
+	type JSONType struct {
+		NilValue NilBoolean `json:"nilvalue"`
+		Omitted  NilBoolean `json:"omitted,omitempty"`
+	}
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf(ErrUnmarshalFailed, err)
+	}
+
+	if jt.NilValue.NotNil() {
+		t.Error(ErrExpectedNil)
+	}
+	if jt.NilValue.Omitted() {
+		t.Error("expected nil value to be not omitted")
+	}
+	if !jt.Omitted.Omitted() {
+		t.Error("expected omitted value to be omitted")
+	}
+}
+
 func ExampleVariable_UnmarshalJSON() {
 	type JSONType struct {
 		Bool       NilBoolean   `json:"bool"`
