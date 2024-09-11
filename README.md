@@ -14,10 +14,11 @@ SPDX-License-Identifier: CC0-1.0
 
 niljson provides a simple and efficient way to handle nullable JSON fields during the (un-)marshalling process. 
 In JSON, it's common to encounter fields that can be `null`, but handling these fields in Go can be cumbersome, 
-especially when dealing with primitive types like `int`, `float64`, `bool`. These types can all be either `0` (as value)
-or `null`. In Go you can always work with pointers but these, of course, can lead to unhandled nil pointer dereferences.
+especially when dealing with primitive types like `int`, `float64`, and `bool`. These types can all be either `0` 
+(as a value) or `null`. In Go you can always work with pointers, but these can lead to unhandled nil 
+pointer dereferences.
 
-**niljaon** addresses this challenge by offering a set of types that can seamlessly handle `null` values during 
+**niljson** addresses this challenge by offering a set of types that can seamlessly handle `null` values during 
 unmarshalling, allowing your Go applications to work with JSON data more naturally and with fewer boilerplate 
 checks for `nil` values.
 
