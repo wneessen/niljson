@@ -16,6 +16,7 @@ const (
 	ErrUnmarshalFailed    = "failed to unmarshal json with nil types: %s"
 	ErrMarshalFailed      = "failed to marshal json with nil types: %s"
 	ErrExpectedJSONString = "expected json to be %q, got %q"
+	ErrExpectedJSONInt    = "expected json to be %d, got %d"
 )
 
 var jsonBytes = []byte(
@@ -240,7 +241,7 @@ func TestVariable_UnmarshalJSON_Int(t *testing.T) {
 		t.Errorf("expected nil, but got value")
 	}
 	if jt.Value.Value() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+		t.Errorf(ErrExpectedJSONInt, expected, jt.Value.Value())
 	}
 
 	jt.Value.Reset()
@@ -287,7 +288,7 @@ func TestVariable_UnmarshalJSON_Int64(t *testing.T) {
 		t.Errorf("expected nil, but got value")
 	}
 	if jt.Value.Value() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+		t.Errorf(ErrExpectedJSONInt, expected, jt.Value.Value())
 	}
 
 	jt.Value.Reset()
@@ -381,7 +382,7 @@ func TestVariable_UnmarshalJSON_UInt(t *testing.T) {
 		t.Errorf("expected nil, but got value")
 	}
 	if jt.Value.Value() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+		t.Errorf(ErrExpectedJSONInt, expected, jt.Value.Value())
 	}
 
 	jt.Value.Reset()
@@ -428,7 +429,7 @@ func TestVariable_UnmarshalJSON_UInt8(t *testing.T) {
 		t.Errorf("expected nil, but got value")
 	}
 	if jt.Value.Value() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+		t.Errorf(ErrExpectedJSONInt, expected, jt.Value.Value())
 	}
 
 	jt.Value.Reset()
@@ -475,7 +476,7 @@ func TestVariable_UnmarshalJSON_UInt16(t *testing.T) {
 		t.Errorf("expected nil, but got value")
 	}
 	if jt.Value.Value() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+		t.Errorf(ErrExpectedJSONInt, expected, jt.Value.Value())
 	}
 
 	jt.Value.Reset()
@@ -522,7 +523,7 @@ func TestVariable_UnmarshalJSON_UInt32(t *testing.T) {
 		t.Errorf("expected nil, but got value")
 	}
 	if jt.Value.Value() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+		t.Errorf(ErrExpectedJSONInt, expected, jt.Value.Value())
 	}
 
 	jt.Value.Reset()
@@ -569,7 +570,7 @@ func TestVariable_UnmarshalJSON_UInt64(t *testing.T) {
 		t.Errorf("expected nil, but got value")
 	}
 	if jt.Value.Value() != expected {
-		t.Errorf("expected value to be %d, got %d", expected, jt.Value.Value())
+		t.Errorf(ErrExpectedJSONInt, expected, jt.Value.Value())
 	}
 
 	jt.Value.Reset()
