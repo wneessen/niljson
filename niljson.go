@@ -51,17 +51,17 @@ type Variable[T any] struct {
 	present bool
 }
 
-// IsNil returns true when a Variable is nil
-func (v *Variable[T]) IsNil() bool {
-	return !v.notNil
-}
-
 // NewVariable returns a new Variable of generic type
 func NewVariable[T any](value T) Variable[T] {
 	return Variable[T]{
 		notNil: true,
 		value:  value,
 	}
+}
+
+// IsNil returns true when a Variable is nil
+func (v *Variable[T]) IsNil() bool {
+	return !v.notNil
 }
 
 // NotNil returns true when a Variable is not nil
