@@ -8,6 +8,42 @@ import (
 	"encoding/json"
 )
 
+// NilBoolean is an boolean type that can be nil
+type NilBoolean = Variable[bool]
+
+// NilByteSlice is a []byte type that can be nil
+type NilByteSlice = Variable[[]byte]
+
+// NilInt is an int type that can be nil
+type NilInt = Variable[int]
+
+// NilInt64 is an int64 type that can be nil
+type NilInt64 = Variable[int64]
+
+// NilUInt is an uint type that can be nil
+type NilUInt = Variable[uint]
+
+// NilUInt8 is an uint8 type that can be nil
+type NilUInt8 = Variable[uint8]
+
+// NilUInt16 is an uint16 type that can be nil
+type NilUInt16 = Variable[uint16]
+
+// NilUInt32 is an uint32 type that can be nil
+type NilUInt32 = Variable[uint32]
+
+// NilUInt64 is an uint64 type that can be nil
+type NilUInt64 = Variable[uint64]
+
+// NilFloat32 is an float32 type that can be nil
+type NilFloat32 = Variable[float32]
+
+// NilFloat64 is an float64 type that can be nil
+type NilFloat64 = Variable[float64]
+
+// NilString is a string type that can be nil
+type NilString = Variable[string]
+
 // Variable is a generic variable type that can be null.
 type Variable[T any] struct {
 	value   T
@@ -50,41 +86,13 @@ func (v *Variable[T]) Value() T {
 	return v.value
 }
 
-// NilBoolean is an boolean type that can be nil
-type NilBoolean = Variable[bool]
-
-// NilByteSlice is a []byte type that can be nil
-type NilByteSlice = Variable[[]byte]
-
-// NilInt is an int type that can be nil
-type NilInt = Variable[int]
-
-// NilInt64 is an int64 type that can be nil
-type NilInt64 = Variable[int64]
-
-// NilUInt is an uint type that can be nil
-type NilUInt = Variable[uint]
-
-// NilUInt8 is an uint8 type that can be nil
-type NilUInt8 = Variable[uint8]
-
-// NilUInt16 is an uint16 type that can be nil
-type NilUInt16 = Variable[uint16]
-
-// NilUInt32 is an uint32 type that can be nil
-type NilUInt32 = Variable[uint32]
-
-// NilUInt64 is an uint64 type that can be nil
-type NilUInt64 = Variable[uint64]
-
-// NilFloat32 is an float32 type that can be nil
-type NilFloat32 = Variable[float32]
-
-// NilFloat64 is an float64 type that can be nil
-type NilFloat64 = Variable[float64]
-
-// NilString is a string type that can be nil
-type NilString = Variable[string]
+// MarshalJSON satisfies the json.Marshaler interface for generic Variable types
+func (v *Variable[T]) MarshalJSON() ([]byte, error) {
+	if !v.notNil {
+		return json.Marshal(nil)
+	}
+	return json.Marshal(v.value)
+}
 
 // UnmarshalJSON satisfies the json.Unmarshaler interface for generic Variable types
 func (v *Variable[T]) UnmarshalJSON(data []byte) error {
@@ -95,12 +103,4 @@ func (v *Variable[T]) UnmarshalJSON(data []byte) error {
 		return json.Unmarshal(data, &v.value)
 	}
 	return nil
-}
-
-// MarshalJSON satisfies the json.Marshaler interface for generic Variable types
-func (v *Variable[T]) MarshalJSON() ([]byte, error) {
-	if !v.notNil {
-		return json.Marshal(nil)
-	}
-	return json.Marshal(v.value)
 }
