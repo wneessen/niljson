@@ -86,6 +86,13 @@ func (v *Variable[T]) Value() T {
 	return v.value
 }
 
+// Set makes the Variable valid with the given value
+func (v *Variable[T]) Set(val T) {
+	v.value = val
+	v.present = true
+	v.notNil = true
+}
+
 // MarshalJSON satisfies the json.Marshaler interface for generic Variable types
 func (v *Variable[T]) MarshalJSON() ([]byte, error) {
 	if !v.notNil {
