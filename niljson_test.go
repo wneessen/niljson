@@ -624,6 +624,30 @@ func TestVariable_Omitted(t *testing.T) {
 	}
 }
 
+func TestVariable_Set(t *testing.T) {
+	type JSONType struct {
+		Value NilString `json:"non_existing"`
+	}
+	expected := "test"
+
+	var jt JSONType
+	if err := json.Unmarshal(jsonBytes, &jt); err != nil {
+		t.Errorf(ErrUnmarshalFailed, err)
+	}
+
+	if jt.Value.NotNil() {
+		t.Error(ErrExpectedNil)
+	}
+
+	jt.Value.Set(expected)
+	if jt.Value.IsNil() {
+		t.Error(ErrExpectedValue)
+	}
+	if jt.Value.Value() != expected {
+		t.Errorf(ErrExpectedJSONString, expected, jt.Value.Value())
+	}
+}
+
 func ExampleVariable_UnmarshalJSON() {
 	type JSONType struct {
 		Bool       NilBoolean   `json:"bool"`
